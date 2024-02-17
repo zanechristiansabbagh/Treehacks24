@@ -30,6 +30,8 @@ export default function HomeAuth() {
     if (file) {
       console.log(file.name); // Just logging the file name for demonstration
       startUploadProgress(); // Start the upload progress
+    }
+  }
       
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     setIsUploading(false);
@@ -171,5 +173,5 @@ export default function HomeAuth() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

@@ -21,6 +21,16 @@ export default function HomeAuth() {
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
+  const routeToNavigation=()=>{
+    router.push("/dashboard")
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log(file.name); // Just logging the file name for demonstration
+      startUploadProgress(); // Start the upload progress
+      
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     setIsUploading(false);
     setUploadProgress(0);
@@ -48,10 +58,9 @@ export default function HomeAuth() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-            
+
       {isUploading && (
         <div className="w-full bg-gray-200">
-                    
           <div
             className="bg-green-500 text-xs leading-none py-1 text-center text-white"
             style={{ width: `${uploadProgress}%` }}
@@ -84,9 +93,9 @@ export default function HomeAuth() {
             <Button size="sm" onClick={navigateToStudentList}>
               Students
             </Button>
-            <Button size="sm" onClick={logout}>
-              Logout
-            </Button>{" "}
+            <Button size="sm" onClick={routeToNavigation}>
+              See Dashboard
+            </Button>
                         {/* Hidden file input */}
                               
           </div>

@@ -58,6 +58,11 @@ export default function HomeAuth() {
     router.push("/api/auth/logout"); // Trigger click on file input when button is clicked
   };
 
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString("en-US", options);
+  };
+
   return (
     <div className="w-full min-h-screen flex flex-col">
 
@@ -79,7 +84,7 @@ export default function HomeAuth() {
                     
           <div className="flex items-center gap-4 mb-4">
                         
-            <h1 className="text-3xl font-bold tracking-tighter">My Lectures</h1>
+            <h1 className="text-3xl font-bold tracking-tighter" style={{marginLeft: '6%'}}>My Lectures</h1>
                         
             <UploadButton
               uploadUrl={generateUploadUrl}
@@ -102,69 +107,34 @@ export default function HomeAuth() {
                               
           </div>
                     
-          <Card>
-                        
-            <CardContent className="p-4 md:p-6">
-                            
-              <div className="flex items-center gap-4">
-                                
-                <div className="flex-1">
-                                    
-                  <h2 className="text-xl font-semibold">
-                    Introduction to Computer Science
-                  </h2>
-                                    
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    January 28th
-                  </p>
-                                  
-                </div>
-                                
-                <div className="flex flex-col items-end text-right">
-                                    
-                  <div className="text-sm">
-                                        <strong>Students:</strong>
-                                        32                   
-                  </div>
-                                    
-                  <div className="space-x-2 mt-2">
-                                        <Button size="sm">View Slides</Button>
-                                        
-                    <Button size="sm" variant="outline">
-                                            View Responses                     
-                    </Button>
-                                      
-                  </div>
-                                  
-                </div>
-                              
-              </div>
-                          
-            </CardContent>
-                      
-          </Card>
-          {classes?.map((classItem, index) => (
-            <Card key={index}>
-              {" "}
-              {/* Fixed: Added "key" prop here */}
-              <CardContent className="p-4 md:p-6">
-                <h2 className="text-xl font-semibold">Class 2</h2>
 
-                <div className="mt-4">
-                  <p>
-                    <strong>Lecture ID:</strong> {classItem.lectureId}
-                  </p>
-                  <p>
-                    <strong>Creation Time:</strong>{" "}
-                    {new Date(classItem._creationTime).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Students:</strong> {classItem.students}
-                  </p>
+          {classes?.map((classItem, index) => (
+            <Card key={index} className="w-4/5 bg-gray-700 mx-auto my-4">
+              <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start"> {/* Updated alignment to start */}
+                <div className="flex flex-1 justify-between items-start"> {/* Updated alignment to start */}
+                  <div className="flex-1"> {/* Updated alignment to start */}
+                    <div>
+                      <h2 className="text-xl font-semibold text-white">Lecture {index + 1}</h2>
+                      <p className="text-white mt-0">
+                        {formatDate(classItem._creationTime)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 items-center"> {/* Updated to include spacer */}
+                    <div className="flex-grow" /> {/* Spacer */}
+                    <Button size="sm" className="bg-blue-500 text-white">
+                      View slides
+                    </Button>
+                    <Button size="sm" className="bg-green-500 text-white">
+                      View breakdown
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+          
           ))}
+
         </div>
       </main>
       <div className="fixed bottom-0 right-0 m-4">
@@ -175,3 +145,8 @@ export default function HomeAuth() {
     </div>
   )
 }
+
+
+// <p>
+// <strong>Students:</strong> {classItem.students} 
+// </p>

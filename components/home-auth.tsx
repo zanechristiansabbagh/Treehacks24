@@ -110,8 +110,8 @@ export default function HomeAuth() {
 
           {classes?.map((classItem, index) => (
             <Card key={index} className="w-4/5 bg-gray-700 mx-auto my-4">
-              <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start"> {/* Updated alignment to start */}
-                <div className="flex flex-1 justify-between items-start"> {/* Updated alignment to start */}
+              <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start "> {/* Updated alignment to start */}
+              <div className="flex flex-1 justify-between"> {/* Adjusted for spacing at the ends */} {/* Updated alignment to start */}
                   <div className="flex-1"> {/* Updated alignment to start */}
                     <div>
                       <h2 className="text-xl font-semibold text-white">Lecture {index + 1}</h2>
@@ -121,12 +121,13 @@ export default function HomeAuth() {
                     </div>
                   </div>
                   <div className="flex gap-2 items-center"> {/* Updated to include spacer */}
-                    <div className="flex-grow" /> {/* Spacer */}
-                    <Button size="sm" className="bg-blue-500 text-white">
-                      View slides
-                    </Button>
-                    <Button size="sm" className="bg-green-500 text-white">
-                      View breakdown
+                    <div className="ml-10 flex-end"> {/* Added horizontal spacing before the View slides button */}
+                      <Button size="sm" className="bg-gray-800 text-white">
+                        Slides
+                      </Button>
+                    </div>
+                    <Button size="sm" className="bg-orange-500 text-white">
+                      Breakdown
                     </Button>
                   </div>
                 </div>

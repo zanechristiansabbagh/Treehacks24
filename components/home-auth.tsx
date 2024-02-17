@@ -165,6 +165,11 @@ export default function HomeAuth() {
           ))}
         </div>
       </main>
+      <div className="fixed bottom-0 right-0 m-4">
+        <Button size="sm" onClick={logout} style={{ backgroundColor: 'rgba(255, 0, 0, 0.2)', color: 'rgba(255, 255, 255, 1)', borderRadius: '8px' }}>
+          Logout
+        </Button>
+      </div>
     </div>
   );
 }

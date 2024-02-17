@@ -2,37 +2,45 @@
 import { useRef, useState } from "react"; // Import useRef hook
 import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { useMutation, useQuery } from "convex/react";
+import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
+import "@xixixao/uploadstuff/react/styles.css";
+import { api } from "../convex/_generated/api";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function HomeAuth() {
-  const fileInputRef = useRef(null); // Create a ref for the file input
+  const { user } = useUser();
+  const router = useRouter();
+
   const [uploadProgress, setUploadProgress] = useState(0); // State to track upload progress
   const [isUploading, setIsUploading] = useState(false); // State to track if upload is in progress
 
-  const handleNewLectureClick = () => {
-    fileInputRef.current?.click(); // Trigger click on file input when button is clicked
-  };
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const saveStorageId = useMutation(api.files.saveStorageId);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log(file.name); // Just logging the file name for demonstration
-      startUploadProgress(); // Start the upload progress
+  const classes = useQuery(api.classes.get, { userId: user?.email });
+
+  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    setIsUploading(false);
+    setUploadProgress(0);
+    for (const file of uploaded) {
+      const response = file.response as any; // Assuming response has the structure we need
+      await saveStorageId({
+        lectureId: response.storageId,
+        userId: user?.email,
+      });
     }
   };
+  const onUploadProgress = (progress: number) => {
+    setUploadProgress(progress);
+  };
+  const onUploadBegin = (fileName: string) => {
+    setIsUploading(true);
+  };
 
-  const startUploadProgress = () => {
-    setIsUploading(true); // Set uploading to true
-    setUploadProgress(0); // Reset progress to 0
-    const interval = setInterval(() => {
-      setUploadProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(interval);
-          setIsUploading(false); // Set uploading to false once progress reaches 100%
-          return 100;
-        }
-        return prevProgress + 100 / 6; // Increment progress by 1/6th every second
-      });
-    }, 1000); // Update progress every second
+  const navigateToStudentList = () => {
+    router.push("/studentList"); // Trigger click on file input when button is clicked
   };
 
   return (
@@ -59,19 +67,22 @@ export default function HomeAuth() {
                         
             <h1 className="text-3xl font-bold tracking-tighter">My Lectures</h1>
                         
-            <Button size="sm" onClick={handleNewLectureClick}>
-              New Lecture
+            <UploadButton
+              uploadUrl={generateUploadUrl}
+              fileTypes={[".pdf", "image/*"]}
+              onUploadComplete={saveAfterUpload}
+              onUploadBegin={onUploadBegin}
+              onUploadProgress={onUploadProgress}
+              onUploadError={(error: unknown) => {
+                // Do something with the error.
+                alert(`ERROR! ${error}`);
+              }}
+            />
+            <Button size="sm" onClick={navigateToStudentList}>
+              Students
             </Button>
                         {/* Hidden file input */}
-                        
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              accept=".pdf"
-              onChange={handleFileChange}
-            />
-                      
+                              
           </div>
                     
           <Card>
@@ -115,11 +126,30 @@ export default function HomeAuth() {
             </CardContent>
                       
           </Card>
-                  
+          {classes?.map((classItem, index) => (
+            <Card key={index}>
+              {" "}
+              {/* Fixed: Added "key" prop here */}
+              <CardContent className="p-4 md:p-6">
+                <h2 className="text-xl font-semibold">Class 2</h2>
+
+                <div className="mt-4">
+                  <p>
+                    <strong>Lecture ID:</strong> {classItem.lectureId}
+                  </p>
+                  <p>
+                    <strong>Creation Time:</strong>{" "}
+                    {new Date(classItem._creationTime).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong>Students:</strong> {classItem.students}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-              
       </main>
-          
     </div>
   );
 }

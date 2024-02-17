@@ -1,4 +1,4 @@
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const get = query({
@@ -8,5 +8,13 @@ export const get = query({
       .query("lectures")
       .filter((q) => q.eq(q.field("teacher"), userId))
       .collect();
+  },
+});
+
+export const deleteClass = mutation({
+  args: { taskId: v.id("lectures"), storageId: v.id("_storage") },
+  handler: async (ctx, { taskId, storageId }) => {
+    await ctx.storage.delete(storageId);
+    await ctx.db.delete(taskId);
   },
 });

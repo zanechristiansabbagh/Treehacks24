@@ -42,6 +42,9 @@ export default function HomeAuth() {
   const navigateToStudentList = () => {
     router.push("/studentList"); // Trigger click on file input when button is clicked
   };
+  const logout = () => {
+    router.push("/api/auth/logout"); // Trigger click on file input when button is clicked
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col">
@@ -81,6 +84,9 @@ export default function HomeAuth() {
             <Button size="sm" onClick={navigateToStudentList}>
               Students
             </Button>
+            <Button size="sm" onClick={logout}>
+              Logout
+            </Button>{" "}
                         {/* Hidden file input */}
                               
           </div>

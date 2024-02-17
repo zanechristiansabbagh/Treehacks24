@@ -1,19 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { get } from "../convex/tasks.js";
-import { api } from "../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
 export default function Component() {
-  const tasksQueryResult = useQuery(api.tasks.get);
-  const tasksId = tasksQueryResult ? tasksQueryResult[0]?.id : "";
-  // const [profID, setProfID] = useState('');
+  const [tasksId, setTasksId] = useState("");
+  
+  const getQuery = useQuery(api.tasks.get);
 
-  // useEffect(() => {
-  //   const id = get(); // Assuming getTasks returns profID directly
-  //   setProfID(id);
-  // }, []);
+  
 
+
+
+  const navigateToStudentForm = () => {
+    const firstItem = getQuery[0].id
+    console.log(firstItem);
+  }
   return (
     <div className="relative flex flex-col items-center justify-center h-screen w-full min-h-screen bg-black">
       <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none z-[-1]">
@@ -81,6 +83,10 @@ export default function Component() {
         Have your students scan your qr code to join your class
       </h2>
       <p className="text-lg text-white mt-4">Professor ID: {tasksId}</p>
+
+      <button onClick={navigateToStudentForm} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+        Go to Student Form
+      </button>
 
       <div className="mt-8">
         <img

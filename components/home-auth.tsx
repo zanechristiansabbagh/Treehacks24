@@ -18,20 +18,12 @@ export default function HomeAuth() {
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
-  const deleteClass = useMutation(api.classes.deleteTask);
+  const deleteClass = useMutation(api.classes.deleteClass);
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
   const routeToNavigation = () => {
     router.push("/dashboard");
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log(file.name); // Just logging the file name for demonstration
-      startUploadProgress(); // Start the upload progress
-    }
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {

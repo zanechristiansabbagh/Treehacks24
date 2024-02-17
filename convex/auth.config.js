@@ -1,8 +1,8 @@
 export default {
   providers: [
     {
-      domain: "your-domain.us.auth0.com",
-      applicationID: "yourclientid",
+      domain: process.env.OAUTH_DOMAIN,
+      applicationID: process.env.OAUTH_CLIENT_ID,
     },
   ],
 };

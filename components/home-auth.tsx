@@ -2,8 +2,10 @@
 import { useRef, useState } from "react"; // Import useRef hook
 import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function HomeAuth() {
+  const router = useRouter();
   const fileInputRef = useRef(null); // Create a ref for the file input
   const [uploadProgress, setUploadProgress] = useState(0); // State to track upload progress
   const [isUploading, setIsUploading] = useState(false); // State to track if upload is in progress
@@ -11,6 +13,10 @@ export default function HomeAuth() {
   const handleNewLectureClick = () => {
     fileInputRef.current?.click(); // Trigger click on file input when button is clicked
   };
+
+  const routeToNavigation=()=>{
+    router.push("/dashboard")
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -37,10 +43,9 @@ export default function HomeAuth() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-            
+
       {isUploading && (
         <div className="w-full bg-gray-200">
-                    
           <div
             className="bg-green-500 text-xs leading-none py-1 text-center text-white"
             style={{ width: `${uploadProgress}%` }}
@@ -61,6 +66,9 @@ export default function HomeAuth() {
                         
             <Button size="sm" onClick={handleNewLectureClick}>
               New Lecture
+            </Button>
+            <Button size="sm" onClick={routeToNavigation}>
+              See Dashboard
             </Button>
                         {/* Hidden file input */}
                         

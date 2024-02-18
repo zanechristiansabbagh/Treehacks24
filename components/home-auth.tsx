@@ -15,7 +15,6 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Page from "../app/dashboard/page";
 import StudentTable from "@/app/studentList/page";
 import { useAction } from "convex/react";
-import Image from "next/image";
 
 export default function HomeAuth() {
   const { user } = useUser();
@@ -28,7 +27,11 @@ export default function HomeAuth() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
   const deleteClass = useMutation(api.classes.deleteClass);
+  const getClassesByEmail = useQuery(api.classes.getClassesByEmail, {
+    email: user?.email,
+  })
   const fetchEmbeddings = useAction(api.embed.getEmbeddings);
+  const createNewClass = useMutation(api.classes.createNewClass);
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
@@ -37,7 +40,6 @@ export default function HomeAuth() {
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
-    console.log("HIHIIHIHI");
     setIsUploading(false);
     setUploadProgress(0);
     setShowOverlay(false); // Hide overlay after upload
@@ -47,6 +49,11 @@ export default function HomeAuth() {
         lectureId: response.storageId,
         userId: user?.email,
       });
+      if(getClassesByEmail.length == 0){
+        createNewClass({teacherEmail: user?.email});
+      }
+
+      navigateToBreakdown(response.storageId);
     }
   };
   const onUploadProgress = (progress: number) => {
@@ -231,16 +238,15 @@ function LectureCard({
   const handleClick = async () => {
     const result = await fetchEmbeddings({
       file: classItem.url,
-      collection_id: classItem.lectureId,
+      collection_id: user?.email,
     });
-    console.log(result);
-
     await createProblemSet({
       teacher: user.email,
       qaPairs: result.qa_pairs,
       keyWords: result.feature_names,
       lectureId: classItem.lectureId,
     });
+    console.log(result);
 
     // const data = await fetch("https://d6700028769d.ngrok.app/embed", {
     //   method: "POST",

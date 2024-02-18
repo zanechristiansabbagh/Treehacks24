@@ -10,7 +10,7 @@ export const getEmbeddings = action({
     // body.append("collection_id", args.collection_id);
     // console.log(body);
     // return body;
-    const data = await fetch("https://2e59c4e42772.ngrok.app/embed", {
+    const data = await fetch("https://ta.ai.ngrok-free.app/embed", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,6 +26,5 @@ export const getEmbeddings = action({
     }
     const result = await data.json();
     return result;
-    console.log("Success:", result);
   },
 });

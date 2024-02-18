@@ -64,7 +64,7 @@ export default function HomeAuth() {
 
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(date).toLocaleDateString("en-US", options);
+    return new Date(date).toLocaleDateString("en-US");
   };
 
   const toggleOverlay = () => setShowOverlay(!showOverlay);
@@ -160,7 +160,7 @@ function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, 
       <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
         <UploadDropzone
           uploadUrl={generateUploadUrl}
-          fileTypes={[".pdf", "image/*"]}
+          fileTypes={[".pdf"]}
           onUploadComplete={saveAfterUpload}
           onUploadBegin={onUploadBegin}
           onUploadProgress={onUploadProgress}

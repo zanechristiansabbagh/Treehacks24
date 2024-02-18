@@ -35,8 +35,8 @@ export default function HomeAuth() {
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
-  const routeToNavigation = () => {
-    router.push("/dashboard");
+  const routeToSearch = () => {
+    router.push("/search");
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
@@ -63,6 +63,10 @@ export default function HomeAuth() {
     setIsUploading(true);
   };
 
+  const navigateToSearch = () => {
+    router.push("/search");
+  };
+
   const navigateToStudentList = () => {
     router.push("/studentList");
   };
@@ -82,11 +86,13 @@ export default function HomeAuth() {
   };
 
   const toggleOverlay = () => setShowOverlay(!showOverlay);
+  console.log(showOverlay)
 
   return (
     <div className="w-full min-h-screen flex flex-col">
       {showOverlay && (
-        <div className="absolute inset-0 z-50">
+        <div className="relative inset-0 z-50">
+          <button onClick={toggleOverlay} className="absolute right-0 top-0 m-4 text-4xl text-white z-50">&times;</button>
           <OverlayComponent
             generateUploadUrl={generateUploadUrl}
             onUploadBegin={onUploadBegin}
@@ -108,14 +114,17 @@ export default function HomeAuth() {
       <main className="flex-1">
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
-            <div className="flex gap-4">
+            <h1 className="text-5xl font-bold tracking-tighter">Lectures</h1>
+            <div className="flex gap-4 items-center justify-center">
               <div className="flex items-center justify-center">
                 <Button size="sm" onClick={navigateToQR}>
                   <img src="/qr.png" alt="QR Code" width="100" height="100" />
                 </Button>
               </div>
-              <div className="bg-orange-500 p-2 rounded-full">
+              <Button size="sm" onClick={navigateToSearch} className="m-0 p-0">
+                  <img src="/search.png" alt="Search" width="80" height="100" className="m-0 p-0" />
+                </Button>
+              <div className="bg-orange-500 p-2 rounded-full m-0">
                 <Button
                   size="sm"
                   onClick={toggleOverlay}
@@ -265,7 +274,9 @@ function LectureCard({
     >
       <CardContent className="p-4 flex flex-col items-start ">
         <div className="flex flex-col flex-1 justify-between">
-          <div className="mb-4"> {/* Removed mr-14 to ensure content fits within the card */}
+          <div className="mb-4">
+            {" "}
+            {/* Removed mr-14 to ensure content fits within the card */}
             <h2 className="text-xl font-semibold text-white">
               Lecture {index + 1}
             </h2>
@@ -273,7 +284,9 @@ function LectureCard({
               {formatDate(classItem._creationTime)}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 items-center justify-start w-full"> {/* Changed justify-end to justify-start, added flex-wrap, and ensured it never extends beyond its parent container with w-full */}
+          <div className="flex flex-wrap gap-2 items-center justify-start w-full">
+            {" "}
+            {/* Changed justify-end to justify-start, added flex-wrap, and ensured it never extends beyond its parent container with w-full */}
             <Button
               size="sm"
               className="bg-gray-800 text-white h-10 flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow

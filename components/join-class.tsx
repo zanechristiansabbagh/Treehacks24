@@ -15,12 +15,15 @@ export const JoinClass = ({parsedEmail}) => {
 
   const createNewStudent = useMutation(api.students.createNewStudent);
   const addStudentToClass = useMutation(api.classes.addStudentToClass);
+
   const createNewClassIfNotExists = useMutation(api.classes.createNewClassIfNotExists);
   console.log(email === "christenxie@gmail.com")
   console.log(getClassesByEmail, "classID")
   useEffect(() => {
     console.log("Email: ", email)
   }, []);
+
+
   
   const handleNameChange = (e) => {
     setNameValue(e.target.value)

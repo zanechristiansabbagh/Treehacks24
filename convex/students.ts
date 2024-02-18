@@ -32,7 +32,7 @@ export const createNewStudent = mutation({
     handler: async (ctx, { studentName, studentPhoneNumber }) => {
         const doesStudentExist = await ctx.db.query("students").filter((q) => q.eq(q.field("phoneNumber"), studentPhoneNumber)).first();
         if(!doesStudentExist){
-        await ctx.db.insert("students", { name: studentName, phoneNumber: studentPhoneNumber, texts: 0, score: 0, indexesSeen: [] });
+        return await ctx.db.insert("students", { name: studentName, phoneNumber: studentPhoneNumber, texts: 0, score: 0, indexesSeen: [] });
     }
     },
 })

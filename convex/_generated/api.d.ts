@@ -22,7 +22,9 @@ import type * as myHttpActions from "../myHttpActions.js";
 import type * as problemSets from "../problemSets.js";
 import type * as problems from "../problems.js";
 import type * as studentResponses from "../studentResponses.js";
+import type * as students from "../students.js";
 import type * as tasks from "../tasks.js";
+import type * as twilio from "../twilio.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -41,7 +43,9 @@ declare const fullApi: ApiFromModules<{
   problemSets: typeof problemSets;
   problems: typeof problems;
   studentResponses: typeof studentResponses;
+  students: typeof students;
   tasks: typeof tasks;
+  twilio: typeof twilio;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

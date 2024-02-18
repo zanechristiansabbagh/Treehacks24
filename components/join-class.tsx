@@ -13,6 +13,7 @@ export const JoinClass = ({parsedEmail}) => {
   const email = uncutEmail.replace(/@URAD0G@/g, ".");
 
   const createNewStudent = useMutation(api.students.createNewStudent);
+  const addStudentToClass = useMutation(api.classes.addStudentToClass);
   console.log(email)
 
   console.log(nameValue)
@@ -38,7 +39,8 @@ export const JoinClass = ({parsedEmail}) => {
     console.log("Final number:", cleanNumber); 
     console.log("Final Name:", nameValue); 
     console.log("Submission Status:", isSubmitted ? "Not Submitted" : "Submitted"); // Log the submission status, toggled from its previous state
-    createNewStudent({studentName: nameValue, studentPhoneNumber: cleanNumber});
+    const studentId = createNewStudent({studentName: nameValue, studentPhoneNumber: cleanNumber});
+    addStudentToClass({studentId: studentId, teacherEmail: email})
   };
 
   // Determine if the submit button should be enabled

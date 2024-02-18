@@ -47,6 +47,9 @@ export default function HomeAuth() {
   const navigateToStudentList = () => {
     router.push("/studentList"); // Trigger click on file input when button is clicked
   };
+  const navigateToBreakdown = () => {
+    router.push("/breakdown"); // Trigger click on file input when button is clicked
+  };
   const logout = () => {
     router.push("/api/auth/logout"); // Trigger click on file input when button is clicked
   };
@@ -125,9 +128,10 @@ export default function HomeAuth() {
                         Slides
                       </Button>
                     </div>
-                    <Button size="sm" className="bg-orange-500 text-white">
+                    <Button size="sm" className="bg-orange-500 text-white" onClick={navigateToBreakdown}>
                       Breakdown
                     </Button>
+
                     <Button
                       size="sm"
                       className="bg-red-500 text-white"

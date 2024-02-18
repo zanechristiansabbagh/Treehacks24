@@ -10,14 +10,14 @@ export const triggerTwilio = action({
         const data = await ctx.runQuery(internal.twilio.getStudentsInClass, {
             teacherEmail: args.teacherEmail,
         });
-        const students = data;
+        const studentNumbers = data;
         const response = await fetch("https://ta.ai.ngrok-free.app/send-sms", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                studentPhoneNumbers: students,
+                studentPhoneNumbers: studentNumbers,
                 qa_pairs: args.qaPairs,
                 keyWords: args.keyWords
             }),

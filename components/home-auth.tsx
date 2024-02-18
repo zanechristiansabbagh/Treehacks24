@@ -230,11 +230,16 @@ function LectureCard({
   fetchEmbeddings,
 }) {
   const createProblemSet = useMutation(api.problemSets.createProblemSet);
+
   const { user } = useUser();
+  const classId = useQuery(api.classes.getClassesByEmail, { email: user?.email })
   const handleClick = async () => {
+
+
+
     const result = await fetchEmbeddings({
       file: classItem.url,
-      collection_id: user?.email,
+      collection_id: classId,
     });
     await createProblemSet({
       teacher: user.email,

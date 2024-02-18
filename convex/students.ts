@@ -9,7 +9,7 @@ export const getStudents = query({
 })
 
 export const updateStudentsTextsScoreIndex = mutation({
-    args: { studentId: v.id("students"), texts: v.number, score: v.number, index: v.number },
+    args: { studentId: v.id("students"), texts: v.number(), score: v.number(), index: v.number() },
     handler: async (ctx, { studentId, texts, score, index }) => {
         const currentStudent = await ctx.db.get(studentId)
         const currentScore = currentStudent.score

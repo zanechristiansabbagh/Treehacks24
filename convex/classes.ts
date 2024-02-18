@@ -42,7 +42,10 @@ export const addStudentToClass = mutation({
   handler: async (ctx, { studentId, teacherEmail }) => {
     const school = await ctx.db.query("classes").filter((q) => q.eq(q.field("teacherEmail"), teacherEmail)).first()
     const classId = school._id
-    const currentStudents = await ctx.db.get(classId).students
+    const currentStudents = await ctx.db.get(classId)
+    if(currentStudents.includes(studentId)){
+        return
+    }
     await ctx.db.patch(classId, { students: [...currentStudents, studentId] })
   },
 })

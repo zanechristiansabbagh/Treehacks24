@@ -5,6 +5,7 @@ import { api } from "../convex/_generated/api";
 
 export function QRCode() {
   const { user, error, isLoading } = useUser();
+
   const tasksQueryResult = useQuery(api.tasks.get);
   const tasksId = tasksQueryResult ? tasksQueryResult[0]?.id : "";
 
@@ -79,7 +80,7 @@ export function QRCode() {
       <div className="mt-8" style={{ width: "30vw", height: "30vw" }}>
         <a href={`https://yourwebsite.com/page?tasksId=${tasksId}`}>
           <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass/${user.name}`}
             alt="QR Code"
             style={{ width: "100%", height: "100%" }}
           />

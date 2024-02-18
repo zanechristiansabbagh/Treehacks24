@@ -18,3 +18,23 @@ export const deleteClass = mutation({
     await ctx.db.delete(taskId);
   },
 });
+
+export const getClassesByEmail =  query({
+  args: { email: v.string() },
+  handler: async (ctx, { email }) => {
+    return await ctx.db
+      .query("classes")
+      .filter((q) => q.eq(q.field("teacherEmail"), email))
+      .collect();
+  },
+})
+
+export const createNewClass = mutation({
+  args: { teacherEmail: v.string() },
+  handler: async (ctx, { teacherEmail }) => {
+    const classId = await ctx.db.insert("classes",{ teacherEmail: teacherEmail, students: [], lectures: []})
+    return classId;
+  },
+})
+
+

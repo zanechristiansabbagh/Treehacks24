@@ -31,7 +31,7 @@ export default function HomeAuth() {
     email: user?.email,
   })
   const fetchEmbeddings = useAction(api.embed.getEmbeddings);
-  const createNewClass = useMutation(api.classes.createNewClass);
+  const createNewClass = useMutation(api.classes.createNewClassIfNotExists);
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
@@ -49,7 +49,7 @@ export default function HomeAuth() {
         lectureId: response.storageId,
         userId: user?.email,
       });
-      if(getClassesByEmail.length == 0){
+      if(!getClassesByEmail){
         createNewClass({teacherEmail: user?.email});
       }
 

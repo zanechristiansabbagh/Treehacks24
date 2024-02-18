@@ -22,16 +22,21 @@ export const deleteClass = mutation({
 export const getClassesByEmail =  query({
   args: { email: v.string() },
   handler: async (ctx, { email }) => {
-    return await ctx.db
+    console.log(email, "hi!")
+    const classData =  await ctx.db
       .query("classes")
       .filter((q) => q.eq(q.field("teacherEmail"), email))
-      .collect();
+      .first();
+      return classData?._id;
   },
 })
 
-export const createNewClass = mutation({
+export const createNewClassIfNotExists = mutation({
   args: { teacherEmail: v.string() },
   handler: async (ctx, { teacherEmail }) => {
+    if(await ctx.db.query("classes").filter((q) => q.eq(q.field("teacherEmail"), teacherEmail)).first()){
+        return
+    }
     const classId = await ctx.db.insert("classes",{ teacherEmail: teacherEmail, students: [], lectures: []})
     return classId;
   },
@@ -41,9 +46,13 @@ export const addStudentToClass = mutation({
   args: { studentId: v.id("students"), teacherEmail: v.string() },
   handler: async (ctx, { studentId, teacherEmail }) => {
     const school = await ctx.db.query("classes").filter((q) => q.eq(q.field("teacherEmail"), teacherEmail)).first()
+    console.log(school)
     const classId = school._id
+    console.log(classId)
     const currentStudents = await ctx.db.get(classId)
+    console.log(currentStudents)
     if(currentStudents.includes(studentId)){
+        console.log("Already in class")
         return
     }
     await ctx.db.patch(classId, { students: [...currentStudents, studentId] })

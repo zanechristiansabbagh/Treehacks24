@@ -10,6 +10,7 @@ import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Page from "../app/dashboard/page";
 import StudentTable from "@/app/studentList/page";
+import Image from 'next/image';
 
 export default function HomeAuth() {
   const { user } = useUser();

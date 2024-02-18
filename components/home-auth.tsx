@@ -29,9 +29,11 @@ export default function HomeAuth() {
   const deleteClass = useMutation(api.classes.deleteClass);
   const getClassesByEmail = useQuery(api.classes.getClassesByEmail, {
     email: user?.email,
-  })
-  const classId = useQuery(api.classes.getClassesByEmail, {email:user.email});
-  console.log("Class id: ", classId)
+  });
+  const classId = useQuery(api.classes.getClassesByEmail, {
+    email: user.email,
+  });
+  console.log("Class id: ", classId);
   const fetchEmbeddings = useAction(api.embed.getEmbeddings);
   const createNewClass = useMutation(api.classes.createNewClassIfNotExists);
 
@@ -47,8 +49,8 @@ export default function HomeAuth() {
         lectureId: response.storageId,
         userId: user?.email,
       });
-      if(!getClassesByEmail){
-        createNewClass({teacherEmail: user?.email});
+      if (!getClassesByEmail) {
+        createNewClass({ teacherEmail: user?.email });
       }
 
       navigateToBreakdown(response.storageId);
@@ -60,8 +62,6 @@ export default function HomeAuth() {
   const onUploadBegin = (fileName: string) => {
     setIsUploading(true);
   };
-;
-
   const navigateToStudentList = () => {
     router.push("/studentList");
   };
@@ -69,7 +69,7 @@ export default function HomeAuth() {
     router.push(`/breakdown/${lectureId}`);
   };
   const navigateToSearch = (classId: string) => {
-    console.log("Pushing with ID: ", classId)
+    console.log("Pushing with ID: ", classId);
     router.push(`/search/${classId}`);
   };
   const navigateToQR = () => {
@@ -85,13 +85,18 @@ export default function HomeAuth() {
   };
 
   const toggleOverlay = () => setShowOverlay(!showOverlay);
-  console.log(showOverlay)
+  console.log(showOverlay);
 
   return (
     <div className="w-full min-h-screen flex flex-col">
       {showOverlay && (
         <div className="relative inset-0 z-50">
-          <button onClick={toggleOverlay} className="absolute right-0 top-0 m-4 text-4xl text-white z-50">&times;</button>
+          <button
+            onClick={toggleOverlay}
+            className="absolute right-0 top-0 m-4 text-4xl text-white z-50"
+          >
+            &times;
+          </button>
           <OverlayComponent
             generateUploadUrl={generateUploadUrl}
             onUploadBegin={onUploadBegin}
@@ -121,8 +126,14 @@ export default function HomeAuth() {
                 </Button>
               </div>
               <Button size="sm" onClick={navigateToSearch} className="m-0 p-0">
-                  <img src="/search.png" alt="Search" width="80" height="100" className="m-0 p-0" />
-                </Button>
+                <img
+                  src="/search.png"
+                  alt="Search"
+                  width="80"
+                  height="100"
+                  className="m-0 p-0"
+                />
+              </Button>
               <div className="bg-orange-500 p-2 rounded-full m-0">
                 <Button
                   size="sm"
@@ -162,11 +173,6 @@ export default function HomeAuth() {
           </div>
         </div>
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
-          <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">
-              Students <span style={{ color: "gray" }}>(5)</span>
-            </h1>
-          </div>
           <StudentTable />
         </div>
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
@@ -229,13 +235,15 @@ function LectureCard({
   fetchEmbeddings,
 }) {
   const createProblemSet = useMutation(api.problemSets.createProblemSet);
+  // const getProblems = useQuery(api.problems.getProblems, {
+  //   lectureId: classItem.lectureId,
+  // });
 
   const { user } = useUser();
-  const classId = useQuery(api.classes.getClassesByEmail, { email: user?.email })
+  const classId = useQuery(api.classes.getClassesByEmail, {
+    email: user?.email,
+  });
   const handleClick = async () => {
-
-
-
     const result = await fetchEmbeddings({
       file: classItem.url,
       collection_id: classId,
@@ -305,6 +313,7 @@ function LectureCard({
             >
               Breakdown
             </Button>
+            {/* {getProblemSet?.length > 0 && ( */}
             <Button
               size="sm"
               className="bg-black text-white h-10 w-full md:w-auto flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
@@ -312,6 +321,7 @@ function LectureCard({
             >
               Create Questions
             </Button>
+            {/* )} */}
             <img
               src="/trash.png"
               alt="Delete"

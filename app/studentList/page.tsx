@@ -14,12 +14,11 @@ export default function StudentTable() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="w-full flex justify-start items-center">
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-full flex justify-start items-center bg-red">
       </div>
-      <h1 className="text-2xl font-semibold mb-4 text-center">Total students: {studentsData.length}</h1>
-      <div className="flex justify-center items-center w-full">
-        <div className="bg-gray-800 rounded-lg shadow p-4 w-2/3">
+      <div className="flex justify-center items-center w-full ">
+        <div className="bg-gray-800 rounded-lg shadow p-4 w-full">
           <Table className="mx-auto text-lg">
             <TableHeader>
               <TableRow>

@@ -89,50 +89,50 @@ export default function HomeAuth() {
         </div>
       )}
       <main className="flex-1">
-        <div className="container py-6 px-4 md:py-12 md:px-6">
-          <div className="flex items-center gap-4 mb-4">
-            <h1
-              className="text-3xl font-bold tracking-tighter"
-              style={{ marginLeft: "6%" }}
-            >
+        <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
+          <div className="flex justify-between items-center mb-4 w-full">
+            <h1 className="text-3xl font-bold tracking-tighter">
               Lectures
             </h1>
-            <div className="bg-gray-200 p-2 rounded">
-              <Button size="sm" onClick={toggleOverlay} className="text-black">
-                Add lecture
+            <div className="flex gap-4 bg-white">
+              <Button size="sm" onClick={navigateToQR}>
+                Display QR
               </Button>
+              <div className="bg-orange-500 p-2 rounded">
+                <Button size="sm" onClick={toggleOverlay} className="text-white">
+                  Add lecture
+                </Button>
+              </div>
             </div>
-            <Button size="sm" onClick={navigateToQR}>
-              Display QR
-            </Button>
           </div>
-          {classes?.map((classItem, index) => (
-            <LectureCard
-              key={index}
-              index={index}
-              classItem={classItem}
-              formatDate={formatDate}
-              deleteClass={deleteClass}
-              navigateToBreakdown={navigateToBreakdown}
-            />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-0">
+            {classes?.map((classItem, index) => (
+              <LectureCard
+                key={index}
+                index={index}
+                classItem={classItem}
+                formatDate={formatDate}
+                deleteClass={deleteClass}
+                navigateToBreakdown={navigateToBreakdown}
+              />
+            ))}
+          </div>
         </div>
-        <h1
-          className="text-3xl font-bold tracking-tighter"
-          style={{ marginLeft: "12%" }}
-        >
-          Students
-        </h1>
-        <div>
+        <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
+          <div className="flex justify-between items-center mb-4 w-full">
+            <h1 className="text-3xl font-bold tracking-tighter">
+              Students <span style={{color: "gray"}}>(5)</span> 
+            </h1>
+          </div>
           <StudentTable/>
         </div>
-        <h1
-          className="text-3xl font-bold tracking-tighter"
-          style={{ marginLeft: "12%", marginBottom: "2%" }}
-        >
-          Dashboard
-        </h1>
-        <div>
+        <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
+          <h1
+            className="text-3xl font-bold tracking-tighter"
+            style={{ marginBottom: "2%" }}
+          >
+            Dashboard
+          </h1>
           <Page/>
         </div>
       </main>
@@ -174,10 +174,10 @@ function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, 
 
 function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBreakdown }) {
   return (
-    <Card className="w-4/5 bg-gray-700 mx-auto my-4">
+    <Card className="ml-4 my-6" style={{ width: '25vw', backgroundColor: '#666666', border: '2px solid #91BEA3' }}>
       <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">
         <div className="flex flex-1 justify-between">
-          <div className="flex-1">
+          <div className="flex-1 mr-14">
             <div>
               <h2 className="text-xl font-semibold text-white">
                 Lecture {index + 1}
@@ -187,13 +187,13 @@ function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBrea
               </p>
             </div>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center justify-end">
             <div className="ml-10 flex-end">
               <Button size="sm" className="bg-gray-800 text-white">
                 Slides
               </Button>
             </div>
-            <Button size="sm" className="bg-orange-500 text-white" onClick={navigateToBreakdown}>
+            <Button size="sm" className="bg-[#91BEA3] text-white mr-4" onClick={navigateToBreakdown}>
               Breakdown
             </Button>
 

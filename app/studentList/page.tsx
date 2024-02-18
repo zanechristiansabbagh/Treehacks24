@@ -14,7 +14,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function StudentTable() {
   const { user } = useUser();
-  const data = useQuery(api.classes.getStudentInfo, { email: user.email });
+  const data = useQuery(api.classes.getStudentInfo, { email: user?.email });
 
   return (
     <>

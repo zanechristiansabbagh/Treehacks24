@@ -28,7 +28,7 @@ export const JoinClass = ({parsedEmail}) => {
 
   // Optimized phone number formatting function
   const handlePhoneChange = (e) => {
-    const formattedValue = e.target.value.replace(/[^\d]/g, '').replxace(/(\d{1,3})(\d{0,3})(\d{0,4})/, (match, p1, p2, p3) => [p1, p2, p3].filter(Boolean).join('-'));
+    const formattedValue = e.target.value.replace(/[^\d]/g, '').replace(/(\d{1,3})(\d{0,3})(\d{0,4})/, (match, p1, p2, p3) => [p1, p2, p3].filter(Boolean).join('-'));
     setPhoneValue(formattedValue);
   };
 

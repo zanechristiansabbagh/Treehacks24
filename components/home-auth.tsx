@@ -30,14 +30,12 @@ export default function HomeAuth() {
   const getClassesByEmail = useQuery(api.classes.getClassesByEmail, {
     email: user?.email,
   })
+  const classId = useQuery(api.classes.getClassesByEmail, {email:user.email});
+  console.log("Class id: ", classId)
   const fetchEmbeddings = useAction(api.embed.getEmbeddings);
   const createNewClass = useMutation(api.classes.createNewClassIfNotExists);
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
-
-  const routeToSearch = () => {
-    router.push("/search");
-  };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     setIsUploading(false);
@@ -62,16 +60,17 @@ export default function HomeAuth() {
   const onUploadBegin = (fileName: string) => {
     setIsUploading(true);
   };
-
-  const navigateToSearch = () => {
-    router.push("/search");
-  };
+;
 
   const navigateToStudentList = () => {
     router.push("/studentList");
   };
   const navigateToBreakdown = (lectureId: string) => {
     router.push(`/breakdown/${lectureId}`);
+  };
+  const navigateToSearch = (classId: string) => {
+    console.log("Pushing with ID: ", classId)
+    router.push(`/search/${classId}`);
   };
   const navigateToQR = () => {
     router.push("/qr");

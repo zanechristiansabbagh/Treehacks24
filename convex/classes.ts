@@ -99,15 +99,12 @@ export const addStudentToClass = mutation({
       .query("classes")
       .filter((q) => q.eq(q.field("teacherEmail"), teacherEmail))
       .first();
-    console.log(school);
-    const classId = school._id;
-    console.log(classId);
-    const currentStudents = await ctx.db.get(classId);
-    console.log(currentStudents);
-    if (currentStudents.includes(studentId)) {
+    if (school.students.includes(studentId)) {
       console.log("Already in class");
       return;
     }
-    await ctx.db.patch(classId, { students: [...currentStudents, studentId] });
+    await ctx.db.patch(school._id, {
+      students: [...school.students, studentId],
+    });
   },
 });

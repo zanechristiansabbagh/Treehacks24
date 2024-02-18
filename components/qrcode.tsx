@@ -79,7 +79,7 @@ export function QRCode() {
       <div className="mt-8" style={{ width: "30vw", height: "30vw" }}>
         <a href={`https://yourwebsite.com/page?tasksId=${tasksId}`}>
           <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass`}
             alt="QR Code"
             style={{ width: "100%", height: "100%" }}
           />

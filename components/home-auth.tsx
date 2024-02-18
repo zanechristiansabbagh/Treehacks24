@@ -32,8 +32,8 @@ export default function HomeAuth() {
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
-  const routeToNavigation = () => {
-    router.push("/dashboard");
+  const routeToSearch = () => {
+    router.push("/search");
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
@@ -54,6 +54,10 @@ export default function HomeAuth() {
   };
   const onUploadBegin = (fileName: string) => {
     setIsUploading(true);
+  };
+
+  const navigateToSearch = () => {
+    router.push("/search");
   };
 
   const navigateToStudentList = () => {
@@ -103,6 +107,15 @@ export default function HomeAuth() {
           <div className="flex justify-between items-center mb-4 w-full">
             <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
             <div className="flex gap-4">
+              <div className="bg-green-500 p-2 rounded">
+                <Button
+                  size="sm"
+                  onClick={navigateToSearch}
+                  className="text-white"
+                >
+                  Chat
+                </Button>
+              </div>
               <div className="flex items-center justify-center">
                 <Button size="sm" onClick={navigateToQR}>
                   <img src="/qr.png" alt="QR Code" width="100" height="100" />
@@ -259,7 +272,9 @@ function LectureCard({
     >
       <CardContent className="p-4 flex flex-col items-start ">
         <div className="flex flex-col flex-1 justify-between">
-          <div className="mb-4"> {/* Removed mr-14 to ensure content fits within the card */}
+          <div className="mb-4">
+            {" "}
+            {/* Removed mr-14 to ensure content fits within the card */}
             <h2 className="text-xl font-semibold text-white">
               Lecture {index + 1}
             </h2>
@@ -267,7 +282,9 @@ function LectureCard({
               {formatDate(classItem._creationTime)}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 items-center justify-start w-full"> {/* Changed justify-end to justify-start, added flex-wrap, and ensured it never extends beyond its parent container with w-full */}
+          <div className="flex flex-wrap gap-2 items-center justify-start w-full">
+            {" "}
+            {/* Changed justify-end to justify-start, added flex-wrap, and ensured it never extends beyond its parent container with w-full */}
             <Button
               size="sm"
               className="bg-gray-800 text-white h-10 flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow

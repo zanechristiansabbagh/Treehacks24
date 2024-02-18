@@ -30,8 +30,10 @@ export default function HomeAuth() {
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
-  const routeToNavigation = () => {
-    router.push("/dashboard");
+  
+
+  const routeToSearch = () => {
+    router.push("/search");
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
@@ -51,6 +53,10 @@ export default function HomeAuth() {
   };
   const onUploadBegin = (fileName: string) => {
     setIsUploading(true);
+  };
+
+  const navigateToSearch = () => {
+    router.push("/search");
   };
 
   const navigateToStudentList = () => {
@@ -100,6 +106,11 @@ export default function HomeAuth() {
               Lectures
             </h1>
             <div className="flex gap-4 bg-white">
+            <div className="bg-green-500 p-2 rounded">
+                <Button size="sm" onClick={navigateToSearch} className="text-white">
+                  Chat
+                </Button>
+              </div>
               <Button size="sm" onClick={navigateToQR}>
                 Display QR
               </Button>

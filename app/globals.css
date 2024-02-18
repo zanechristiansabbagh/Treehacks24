@@ -41,3 +41,44 @@ body {
 .fadeIn {
   animation: fadeIn 2s ease-out forwards;
 }
+
+
+@keyframes fadeInTopToBottom {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInTopToBottom {
+  opacity: 0; /* Ensure the element is initially hidden */
+  animation-name: fadeInTopToBottom;
+  animation-duration: 2s; /* Adjust the duration as needed */
+  animation-fill-mode: forwards; /* Keep the final state after the animation completes */
+  animation-timing-function: ease-out;
+  animation-delay: var(--animation-delay, 0s); /* Use a CSS variable for the delay */
+}
+
+@keyframes typing {
+  from { max-width: 0; }
+  to { max-width: 100%; }
+}
+
+.typing-effect {
+  border-right: 2px solid;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  display: inline-block;
+  animation: typing 0.5s steps(40, end), blink-caret .75s step-end infinite;
+  /* The duration has been adjusted to 0.5s to increase the typing speed by 4x */
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: black; }
+}

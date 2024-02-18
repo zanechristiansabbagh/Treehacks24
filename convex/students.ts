@@ -38,3 +38,13 @@ export const createNewStudent = mutation({
     }
 }})
 
+
+export const getStudentFromPhoneNumber = query({
+    args: { phoneNumber: v.string() },
+    handler: async (ctx, { phoneNumber }) => {
+        return await ctx.db
+            .query("students")
+            .filter((q) => q.eq(q.field("phoneNumber"), phoneNumber))
+            .first();
+    },  
+})

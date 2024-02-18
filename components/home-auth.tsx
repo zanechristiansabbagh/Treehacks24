@@ -96,15 +96,17 @@ export default function HomeAuth() {
       <main className="flex-1">
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">
-              Lectures
-            </h1>
+            <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
             <div className="flex gap-4 bg-white">
               <Button size="sm" onClick={navigateToQR}>
                 Display QR
               </Button>
               <div className="bg-orange-500 p-2 rounded">
-                <Button size="sm" onClick={toggleOverlay} className="text-white">
+                <Button
+                  size="sm"
+                  onClick={toggleOverlay}
+                  className="text-white"
+                >
                   Add lecture
                 </Button>
               </div>
@@ -126,10 +128,10 @@ export default function HomeAuth() {
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
             <h1 className="text-3xl font-bold tracking-tighter">
-              Students <span style={{color: "gray"}}>(5)</span> 
+              Students <span style={{ color: "gray" }}>(5)</span>
             </h1>
           </div>
-          <StudentTable/>
+          <StudentTable />
         </div>
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <h1
@@ -138,7 +140,7 @@ export default function HomeAuth() {
           >
             Dashboard
           </h1>
-          <Page/>
+          <Page />
         </div>
       </main>
       <div className="fixed bottom-0 right-0 m-4">
@@ -190,7 +192,14 @@ function LectureCard({
   navigateToBreakdown,
 }) {
   return (
-    <Card className="ml-4 my-6" style={{ width: '25vw', backgroundColor: '#666666', border: '2px solid #91BEA3' }}>
+    <Card
+      className="ml-4 my-6"
+      style={{
+        width: "25vw",
+        backgroundColor: "#666666",
+        border: "2px solid #91BEA3",
+      }}
+    >
       <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">
         <div className="flex flex-1 justify-between">
           <div className="flex-1 mr-14">
@@ -205,11 +214,19 @@ function LectureCard({
           </div>
           <div className="flex gap-2 items-center justify-end">
             <div className="ml-10 flex-end">
-              <Button size="sm" className="bg-gray-800 text-white">
+              <Button
+                size="sm"
+                className="bg-gray-800 text-white"
+                onClick={() => window.open(classItem.url, "_blank")}
+              >
                 Slides
               </Button>
             </div>
-            <Button size="sm" className="bg-[#91BEA3] text-white mr-4" onClick={navigateToBreakdown}>
+            <Button
+              size="sm"
+              className="bg-[#91BEA3] text-white mr-4"
+              onClick={navigateToBreakdown}
+            >
               Breakdown
             </Button>
 

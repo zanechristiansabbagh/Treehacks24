@@ -37,4 +37,10 @@ export const createNewClass = mutation({
   },
 })
 
-
+export const addStudentToClass = mutation({
+  args: { studentId: v.id("students"), classId: v.id("classes") },
+  handler: async (ctx, { studentId, classId }) => {
+    const currentStudents = await ctx.db.get(classId).students
+    await ctx.db.patch(classId, { students: [...currentStudents, studentId] })
+  },
+})

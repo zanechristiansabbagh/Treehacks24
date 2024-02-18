@@ -1,4 +1,6 @@
 "use client"
+import { api } from '@/convex/_generated/api';
+import { useMutation } from 'convex/react';
 import React, { useState, useMemo } from 'react';
 
 export const JoinClass = ({parsedEmail}) => {
@@ -9,6 +11,8 @@ export const JoinClass = ({parsedEmail}) => {
   const pageURL = window.location.href
   const uncutEmail = pageURL.substring(pageURL.lastIndexOf('/') + 1);
   const email = uncutEmail.replace(/@URAD0G@/g, ".");
+
+  const createNewStudent = useMutation(api.students.createNewStudent);
   console.log(email)
 
   console.log(nameValue)
@@ -30,11 +34,11 @@ export const JoinClass = ({parsedEmail}) => {
     setIsSubmitted(!isSubmitted); // Toggle the isSubmitted state on form submission
     const cleanNumber = phoneValue.replace(/-/g, '');
 
-    //CHRSTEN TODO: write cleanNumber and nameValue to convex
 
     console.log("Final number:", cleanNumber); 
     console.log("Final Name:", nameValue); 
     console.log("Submission Status:", isSubmitted ? "Not Submitted" : "Submitted"); // Log the submission status, toggled from its previous state
+    createNewStudent({studentName: nameValue, studentPhoneNumber: cleanNumber});
   };
 
   // Determine if the submit button should be enabled

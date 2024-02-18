@@ -37,6 +37,18 @@ export const getStudentsInClass = internalQuery({
             .query("classes")
             .filter((q) => q.eq(q.field("teacherEmail"), args.teacherEmail))
             .first();
-        return classDoc.students;
+        if (!classDoc) {
+            return []; 
+        }
+        const studentPhoneNumbers = await Promise.all(
+            classDoc.students.map(async (studentId: string) => {
+                const studentDoc = await ctx.db
+                    .query("students")
+                    .filter((q) => q.eq(q.field("_id"), studentId))
+                    .first();
+                return studentDoc ? studentDoc.phoneNumber : null;
+            })
+        );
+        return studentPhoneNumbers.filter(Boolean); // Filter out any nulls in case a studentDoc wasn't found
     },
 });

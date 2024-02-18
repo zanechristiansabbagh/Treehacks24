@@ -250,48 +250,44 @@ function LectureCard({
     <Card
       className="ml-4 my-6"
       style={{
-        width: "25vw",
+        width: "100%", // Changed from 25vw to 100% to ensure content fits inside the card
+        maxWidth: "100vw", // Added to maintain the original width constraint
         backgroundColor: "#666666",
         border: "2px solid #91BEA3",
       }}
     >
-      <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">
-        <div className="flex flex-1 justify-between">
-          <div className="flex-1 mr-14">
-            <div>
-              <h2 className="text-xl font-semibold text-white">
-                Lecture {index + 1}
-              </h2>
-              <p className="text-white mt-0">
-                {formatDate(classItem._creationTime)}
-              </p>
-            </div>
+      <CardContent className="p-4 flex flex-col items-start ">
+        <div className="flex flex-col flex-1 justify-between">
+          <div className="mb-4"> {/* Removed mr-14 to ensure content fits within the card */}
+            <h2 className="text-xl font-semibold text-white">
+              Lecture {index + 1}
+            </h2>
+            <p className="text-white mt-0">
+              {formatDate(classItem._creationTime)}
+            </p>
           </div>
-          <div className="flex gap-2 items-center justify-end">
-            <div className="ml-10 flex-end">
-              <Button
-                size="sm"
-                className="bg-gray-800 text-white"
-                onClick={() => window.open(classItem.url, "_blank")}
-              >
-                Slides
-              </Button>
-            </div>
+          <div className="flex flex-wrap gap-2 items-center justify-start w-full"> {/* Changed justify-end to justify-start, added flex-wrap, and ensured it never extends beyond its parent container with w-full */}
             <Button
               size="sm"
-              className="bg-[#91BEA3] text-white mr-4"
+              className="bg-gray-800 text-white h-10 flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
+              onClick={() => window.open(classItem.url, "_blank")}
+            >
+              Slides
+            </Button>
+            <Button
+              size="sm"
+              className="bg-[#91BEA3] text-white h-10 flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
               onClick={() => navigateToBreakdown(classItem.lectureId)}
             >
               Breakdown
             </Button>
             <Button
               size="sm"
-              className="bg-[#91BEA3] text-white mr-4"
+              className="bg-[#91BEA3] text-white h-10 w-full md:w-auto flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
               onClick={handleClick}
             >
-              Generate Problem Set
+              Create Questions
             </Button>
-
             <img
               src="/trash.png"
               alt="Delete"

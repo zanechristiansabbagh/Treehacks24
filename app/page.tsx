@@ -7,6 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { HomeUnauth } from "@/components/home-unauth";
 import HomeAuth from "@/components/home-auth";
 
+
 export default function Component() {
   const { user, error, isLoading } = useUser();
   const tasksQueryResult = useQuery(api.tasks.get);

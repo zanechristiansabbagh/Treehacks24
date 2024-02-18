@@ -86,7 +86,7 @@ export default function HomeAuth() {
               className="text-3xl font-bold tracking-tighter"
               style={{ marginLeft: "6%" }}
             >
-              My Lectures
+              Lectures
             </h1>
                         
             <UploadButton
@@ -100,69 +100,48 @@ export default function HomeAuth() {
                 alert(`ERROR! ${error}`);
               }}
             />
-            <Button size="sm" onClick={navigateToStudentList}>
+            {/* <Button size="sm" onClick={navigateToStudentList}>
               Students
             </Button>
             <Button size="sm" onClick={logout}>
               Logout
-            </Button>{" "}
+            </Button>{" "} */}
                         {/* Hidden file input */}
                               
           </div>
                     
           {classes?.map((classItem, index) => (
-            <Card key={index} className="w-4/5 bg-gray-700 mx-auto my-4">
-              <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start "> {/* Updated alignment to start */}
-              <div className="flex flex-1 justify-between"> {/* Adjusted for spacing at the ends */} {/* Updated alignment to start */}
-                  <div className="flex-1"> {/* Updated alignment to start */}
-                    <div>
-                      <h2 className="text-xl font-semibold text-white">
-                        Lecture {index + 1}
-                      </h2>
-                      <p className="text-white mt-0">
-                        {formatDate(classItem._creationTime)}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 items-center"> {/* Updated to include spacer */}
-                    <div className="ml-10 flex-end"> {/* Added horizontal spacing before the View slides button */}
-                      <Button size="sm" className="bg-gray-800 text-white">
-                        Slides
-                      </Button>
-                    </div>
-                    <Button size="sm" className="bg-orange-500 text-white" onClick={navigateToBreakdown}>
-                      Breakdown
-                    </Button>
-
-                    <Button
-                      size="sm"
-                      className="bg-red-500 text-white"
-                      onClick={async () =>
-                        await deleteClass({
-                          taskId: classItem._id,
-                          storageId: classItem.lectureId,
-                        })
-                      }
-                    >
-                      Delete
-                    </Button>
-                                  
-                  </div>
-                             
-                </div>
-                       
-              </CardContent>
-                   
-            </Card>
+            <LectureCard
+              key={index}
+              index={index}
+              classItem={classItem}
+              formatDate={formatDate}
+              deleteClass={deleteClass}
+              navigateToBreakdown={navigateToBreakdown}
+            />
           ))}
         </div>
-
-        <div>
-          <Page/>
-        </div>
+        
+        <h1
+          className="text-3xl font-bold tracking-tighter"
+          style={{ marginLeft: "12%" }}
+        >
+          Students
+        </h1>
         <div>
           <StudentTable/>
         </div>
+
+        <h1
+          className="text-3xl font-bold tracking-tighter"
+          style={{ marginLeft: "12%", marginBottom: "2%" }}
+        >
+          Dashboard
+        </h1>
+        <div>
+          <Page/>
+        </div>
+
       </main>
 
 
@@ -184,6 +163,46 @@ export default function HomeAuth() {
   );
 }
 
-// <p>
-// <strong>Students:</strong> {classItem.students}
-// </p>
+function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBreakdown }) {
+  return (
+    <Card className="w-4/5 bg-gray-700 mx-auto my-4">
+      <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">
+        <div className="flex flex-1 justify-between">
+          <div className="flex-1">
+            <div>
+              <h2 className="text-xl font-semibold text-white">
+                Lecture {index + 1}
+              </h2>
+              <p className="text-white mt-0">
+                {formatDate(classItem._creationTime)}
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div className="ml-10 flex-end">
+              <Button size="sm" className="bg-gray-800 text-white">
+                Slides
+              </Button>
+            </div>
+            <Button size="sm" className="bg-orange-500 text-white" onClick={navigateToBreakdown}>
+              Breakdown
+            </Button>
+
+            <Button
+              size="sm"
+              className="bg-red-500 text-white"
+              onClick={async () =>
+                await deleteClass({
+                  taskId: classItem._id,
+                  storageId: classItem.lectureId,
+                })
+              }
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

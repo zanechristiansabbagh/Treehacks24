@@ -96,18 +96,20 @@ export default function HomeAuth() {
       <main className="flex-1">
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
-            <div className="flex gap-4 bg-white">
-              <Button size="sm" onClick={navigateToQR}>
-                Display QR
-              </Button>
-              <div className="bg-orange-500 p-2 rounded">
-                <Button
-                  size="sm"
-                  onClick={toggleOverlay}
-                  className="text-white"
-                >
-                  Add lecture
+            <h1 className="text-3xl font-bold tracking-tighter">
+              Lectures
+            </h1>
+            <div className="flex gap-4">
+              <div className="flex items-center justify-center">
+                <Button size="sm" onClick={navigateToQR}>
+                  <img src="/qr.png" alt="QR Code" width="100" height="100" />
+                </Button>
+              </div>
+              <div className="bg-orange-500 p-2 rounded-full">
+                <Button size="sm" onClick={toggleOverlay} className="text-white flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m-8-8h16" />
+                  </svg>
                 </Button>
               </div>
             </div>

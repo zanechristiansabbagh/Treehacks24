@@ -4,7 +4,7 @@ import { JoinClass } from "@/components/join-class"; // Assuming the path is cor
 export default function Page({ params }) {
   return (
     <div className="flex justify-center items-center h-screen">
-      <JoinClass name={params.name} />
+      <JoinClass />
     </div>
   );
 }

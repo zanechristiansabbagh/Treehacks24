@@ -78,9 +78,9 @@ export function QRCode() {
       {/* <p className="text-lg text-white mt-4">Professor ID: {tasksId}</p> */}
 
       <div className="mt-8" style={{ width: "30vw", height: "30vw" }}>
-        <a href={`https://yourwebsite.com/page?tasksId=${tasksId}`}>
+        <a href={`https://taai-treehacks.vercel.app/joinClass`}>
           <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass/${user.name}`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass`}
             alt="QR Code"
             style={{ width: "100%", height: "100%" }}
           />

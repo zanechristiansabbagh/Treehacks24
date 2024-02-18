@@ -283,7 +283,7 @@ function LectureCard({
             </Button>
             <Button
               size="sm"
-              className="bg-[#91BEA3] text-white h-10 w-full md:w-auto flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
+              className="bg-black text-white h-10 w-full md:w-auto flex-grow" // Ensured all buttons are the same height and made the grids longer by adding flex-grow
               onClick={handleClick}
             >
               Create Questions

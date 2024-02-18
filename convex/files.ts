@@ -26,11 +26,13 @@ export const saveStorageId = mutation({
     // use `args` and/or `ctx.auth` to authorize the user
     // ...
     console.log(args.lectureId);
+    const pdfUrl = await ctx.storage.getUrl(args.lectureId);
     // Check if lectureId is provided before saving
     if (args.lectureId) {
       // Save the storageId to the database using `insert`
       ctx.db.insert("lectures", {
         lectureId: args.lectureId,
+        url: pdfUrl,
         teacher: args.userId,
         students: [],
         // ...

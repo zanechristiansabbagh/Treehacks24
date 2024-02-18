@@ -4,12 +4,17 @@ import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
-import { UploadButton, UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
+import {
+  UploadButton,
+  UploadDropzone,
+  UploadFileResponse,
+} from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Page from "../app/dashboard/page";
 import StudentTable from "@/app/studentList/page";
+import Image from "next/image";
 
 export default function HomeAuth() {
   const { user } = useUser();
@@ -51,8 +56,8 @@ export default function HomeAuth() {
   const navigateToStudentList = () => {
     router.push("/studentList");
   };
-  const navigateToBreakdown = () => {
-    router.push("/breakdown");
+  const navigateToBreakdown = (lectureId: string) => {
+    router.push(`/breakdown/${lectureId}`);
   };
   const navigateToQR = () => {
     router.push("/qr");
@@ -63,7 +68,7 @@ export default function HomeAuth() {
 
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(date).toLocaleDateString("en-US", options);
+    return new Date(date).toLocaleDateString("en-US");
   };
 
   const toggleOverlay = () => setShowOverlay(!showOverlay);
@@ -153,13 +158,18 @@ export default function HomeAuth() {
   );
 }
 
-function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, saveAfterUpload }) {
+function OverlayComponent({
+  generateUploadUrl,
+  onUploadBegin,
+  onUploadProgress,
+  saveAfterUpload,
+}) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
         <UploadDropzone
           uploadUrl={generateUploadUrl}
-          fileTypes={[".pdf", "image/*"]}
+          fileTypes={[".pdf"]}
           onUploadComplete={saveAfterUpload}
           onUploadBegin={onUploadBegin}
           onUploadProgress={onUploadProgress}
@@ -172,7 +182,13 @@ function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, 
   );
 }
 
-function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBreakdown }) {
+function LectureCard({
+  index,
+  classItem,
+  formatDate,
+  deleteClass,
+  navigateToBreakdown,
+}) {
   return (
     <Card className="ml-4 my-6" style={{ width: '25vw', backgroundColor: '#666666', border: '2px solid #91BEA3' }}>
       <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">

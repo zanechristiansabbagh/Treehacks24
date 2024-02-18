@@ -5,7 +5,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function joinClass() {
+export function JoinClass() {
   return (
     <div
       key="1"
@@ -14,7 +14,7 @@ export function joinClass() {
       <h1 className="text-3xl font-bold mb-4">
         Welcome to
         <br />
-        <span className="text-gray-500">Prof. Marx's</span>
+        <span className="text-gray-500">Prof. Marx&apos;s</span>
         <br />
         classroom
       </h1>

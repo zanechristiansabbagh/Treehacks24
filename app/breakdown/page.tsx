@@ -3,7 +3,12 @@ import { TableCell, TableRow, TableBody, Table } from "@/components/ui/table"
 import { Card } from "@/components/ui/card"
 import { useState } from "react";
 
-export default function QuestionBreakdown({ n = 15 }) {
+// Define an interface for the component's props
+interface QuestionBreakdownProps {
+    n?: number;
+  }
+
+export default function QuestionBreakdown({ n = 15 }: QuestionBreakdownProps) {
   const data = [
     { question: "Lorem ipsum dolor sit amet, consectetur and the winner of the award is ", percentage: "%" },
     { question: "adipiscing elit, sed do eiusmod tempor", percentage: "60%" },

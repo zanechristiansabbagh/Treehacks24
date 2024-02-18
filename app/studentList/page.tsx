@@ -13,7 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function StudentTable() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const data = useQuery(api.classes.getStudentInfo, { email: user.email });
 
   return (

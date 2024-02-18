@@ -34,6 +34,9 @@ export const getClassesByEmail = query({
 export const getStudentInfo = query({
   args: { email: v.string() },
   handler: async (ctx, { email }) => {
+    if (email == null) {
+      return null;
+    }
     const studentsInfo = await ctx.db
       .query("classes")
       .filter((q) => q.eq(q.field("teacherEmail"), email))

@@ -173,7 +173,10 @@ export default function HomeAuth() {
           </div>
         </div>
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
-          <StudentTable />
+          {/* <StudentTable /> */}
+          <Button size="sm" onClick={navigateToStudentList} className="m-0 p-0">
+            Students
+          </Button>
         </div>
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <h1

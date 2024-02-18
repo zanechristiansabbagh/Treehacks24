@@ -80,14 +80,14 @@ export function QRCode() {
         />
       </div>
       <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl lg:text-6xl text-white">
-        Welcome to Ta.ai
+        Welcome to <span className="text-orange-500">Ta.ai</span>
       </h1>
       <h2 className="text-xl text-gray-500">
-        Scan qr code to join your class!
+        Scan QR code to join your class!
       </h2>
       {/* <p className="text-lg text-white mt-4">Professor ID: {tasksId}</p> */}
 
-      <div className="mt-8" style={{ width: "30vw", height: "30vw" }}>
+      <div className="mt-8 bg-white p-4 border-4 border-orange-500" style={{ width: "30vw", height: "30vw" }}>
         <a href={`/joinClass/${parsedEmail}`}>
           <img
             src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taai-treehacks.vercel.app/joinClass/${parsedEmail}`}

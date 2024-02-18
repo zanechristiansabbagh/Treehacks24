@@ -113,22 +113,16 @@ export default function HomeAuth() {
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
             <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
-            <div className="flex gap-4">
-              <div className="bg-green-500 p-2 rounded">
-                <Button
-                  size="sm"
-                  onClick={navigateToSearch}
-                  className="text-white"
-                >
-                  Chat
-                </Button>
-              </div>
+            <div className="flex gap-4 items-center justify-center">
               <div className="flex items-center justify-center">
                 <Button size="sm" onClick={navigateToQR}>
                   <img src="/qr.png" alt="QR Code" width="100" height="100" />
                 </Button>
               </div>
-              <div className="bg-orange-500 p-2 rounded-full">
+              <Button size="sm" onClick={navigateToSearch} className="m-0 p-0">
+                  <img src="/search.png" alt="Search" width="80" height="100" className="m-0 p-0" />
+                </Button>
+              <div className="bg-orange-500 p-2 rounded-full m-0">
                 <Button
                   size="sm"
                   onClick={toggleOverlay}

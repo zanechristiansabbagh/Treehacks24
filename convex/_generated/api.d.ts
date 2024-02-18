@@ -15,7 +15,10 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as classes from "../classes.js";
+import type * as embed from "../embed.js";
 import type * as files from "../files.js";
+import type * as http from "../http.js";
+import type * as myHttpActions from "../myHttpActions.js";
 import type * as problemSets from "../problemSets.js";
 import type * as problems from "../problems.js";
 import type * as studentResponses from "../studentResponses.js";
@@ -31,7 +34,10 @@ import type * as tasks from "../tasks.js";
  */
 declare const fullApi: ApiFromModules<{
   classes: typeof classes;
+  embed: typeof embed;
   files: typeof files;
+  http: typeof http;
+  myHttpActions: typeof myHttpActions;
   problemSets: typeof problemSets;
   problems: typeof problems;
   studentResponses: typeof studentResponses;

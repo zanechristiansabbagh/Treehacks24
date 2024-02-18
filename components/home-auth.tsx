@@ -14,6 +14,7 @@ import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Page from "../app/dashboard/page";
 import StudentTable from "@/app/studentList/page";
+import { useAction } from "convex/react";
 import Image from "next/image";
 
 export default function HomeAuth() {
@@ -27,6 +28,7 @@ export default function HomeAuth() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
   const deleteClass = useMutation(api.classes.deleteClass);
+  const fetchEmbeddings = useAction(api.embed.getEmbeddings);
 
   const classes = useQuery(api.classes.get, { userId: user?.email });
 
@@ -35,6 +37,7 @@ export default function HomeAuth() {
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    console.log("HIHIIHIHI");
     setIsUploading(false);
     setUploadProgress(0);
     setShowOverlay(false); // Hide overlay after upload
@@ -76,12 +79,14 @@ export default function HomeAuth() {
   return (
     <div className="w-full min-h-screen flex flex-col">
       {showOverlay && (
-        <OverlayComponent
-          generateUploadUrl={generateUploadUrl}
-          onUploadBegin={onUploadBegin}
-          onUploadProgress={onUploadProgress}
-          saveAfterUpload={saveAfterUpload}
-        />
+        <div className="absolute inset-0 z-50">
+          <OverlayComponent
+            generateUploadUrl={generateUploadUrl}
+            onUploadBegin={onUploadBegin}
+            onUploadProgress={onUploadProgress}
+            saveAfterUpload={saveAfterUpload}
+          />
+        </div>
       )}
       {isUploading && (
         <div className="w-full bg-gray-200">
@@ -96,9 +101,7 @@ export default function HomeAuth() {
       <main className="flex-1">
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">
-              Lectures
-            </h1>
+            <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
             <div className="flex gap-4">
               <div className="flex items-center justify-center">
                 <Button size="sm" onClick={navigateToQR}>
@@ -106,9 +109,24 @@ export default function HomeAuth() {
                 </Button>
               </div>
               <div className="bg-orange-500 p-2 rounded-full">
-                <Button size="sm" onClick={toggleOverlay} className="text-white flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m-8-8h16" />
+                <Button
+                  size="sm"
+                  onClick={toggleOverlay}
+                  className="text-white flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 mx-auto"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v16m-8-8h16"
+                    />
                   </svg>
                 </Button>
               </div>
@@ -123,6 +141,7 @@ export default function HomeAuth() {
                 formatDate={formatDate}
                 deleteClass={deleteClass}
                 navigateToBreakdown={navigateToBreakdown}
+                fetchEmbeddings={fetchEmbeddings}
               />
             ))}
           </div>
@@ -192,7 +211,41 @@ function LectureCard({
   formatDate,
   deleteClass,
   navigateToBreakdown,
+  fetchEmbeddings,
 }) {
+  const createProblemSet = useMutation(api.problemSets.createProblemSet);
+  const { user } = useUser();
+  const handleClick = async () => {
+    const result = await fetchEmbeddings({
+      file: classItem.url,
+      collection_id: classItem.lectureId,
+    });
+    await createProblemSet({
+      teacher: user.email,
+      qaPairs: result.qa_pairs,
+      keyWords: result.feature_names,
+      lectureId: classItem.lectureId,
+    });
+    console.log(result);
+
+    // const data = await fetch("https://d6700028769d.ngrok.app/embed", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     file: classItem.url,
+    //     collection_id: classItem.lectureId,
+    //   }),
+    // });
+
+    // if (!data.ok) {
+    //   throw new Error(`HTTP error! status: ${data.status}`);
+    // }
+    // const result = await data.json();
+    // return result;
+    // console.log("CHRISTEN");
+  };
   return (
     <Card
       className="ml-4 my-6"
@@ -227,9 +280,16 @@ function LectureCard({
             <Button
               size="sm"
               className="bg-[#91BEA3] text-white mr-4"
-              onClick={navigateToBreakdown}
+              onClick={() => navigateToBreakdown(classItem.lectureId)}
             >
               Breakdown
+            </Button>
+            <Button
+              size="sm"
+              className="bg-[#91BEA3] text-white mr-4"
+              onClick={handleClick}
+            >
+              Generate Problem Set
             </Button>
 
             <img

@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 export default function QuestionBreakdown({ params }) {
   const { user } = useUser();
   // const router = useRouter();
-
+  console.log(params.lectureId);
   const data = useQuery(api.studentResponses.getResponseScore, {
     lectureId: params.lectureId,
   });

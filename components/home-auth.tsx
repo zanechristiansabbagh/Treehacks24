@@ -228,13 +228,14 @@ function LectureCard({
       file: classItem.url,
       collection_id: user?.email,
     });
+    console.log(result);
+
     await createProblemSet({
       teacher: user.email,
       qaPairs: result.qa_pairs,
       keyWords: result.feature_names,
       lectureId: classItem.lectureId,
     });
-    console.log(result);
 
     // const data = await fetch("https://d6700028769d.ngrok.app/embed", {
     //   method: "POST",

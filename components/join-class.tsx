@@ -1,11 +1,15 @@
 "use client"
 import React, { useState, useMemo } from 'react';
 
-export const JoinClass = () => {
+export const JoinClass = ({parsedEmail}) => {
   // Initialize the input state with useState hook
   const [phoneValue, setPhoneValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false); // Added state to track submission status
+  const pageURL = window.location.href
+  const uncutEmail = pageURL.substring(pageURL.lastIndexOf('/') + 1);
+  const email = uncutEmail.replace(/@URAD0G@/g, ".");
+  console.log(email)
 
   console.log(nameValue)
   console.log(phoneValue);

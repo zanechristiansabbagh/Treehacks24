@@ -48,12 +48,23 @@ export const getResponseScore = query({
           .query("studentResponses")
           .filter((q) => q.eq(q.field("problemId"), problem._id))
           .collect();
-        return responses.map((response) => ({
-          questionText: problem.questionText,
-          solutionText: problem.solutionText,
-          responseText: response.responseText,
-          score: response.score,
-        }));
+        const newResponses =
+          responses.length > 0
+            ? responses.map((response) => ({
+                questionText: problem.questionText,
+                solutionText: problem.responseText,
+                responseText: response.responseText,
+                score: response.score,
+              }))
+            : [
+                {
+                  questionText: problem.questionText,
+                  solutionText: problem.responseText,
+                  responseText: "",
+                  score: 0,
+                },
+              ];
+        return newResponses;
       })
     );
 

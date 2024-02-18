@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
@@ -32,7 +31,7 @@ export const createProblemSet = mutation({
       )
     );
     await ctx.db.insert("problemSets", {
-      problems: problemIds.map(({ _id }) => _id),
+      problems: problemIds.map((id) => id),
       keywords: keyWords,
       lectureId: lectureId,
     });

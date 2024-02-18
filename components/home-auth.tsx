@@ -114,7 +114,7 @@ export default function HomeAuth() {
       <main className="flex-1">
         <div className="container py-6 px-4 md:py-12 md:px-6 mx-auto">
           <div className="flex justify-between items-center mb-4 w-full">
-            <h1 className="text-3xl font-bold tracking-tighter">Lectures</h1>
+            <h1 className="text-5xl font-bold tracking-tighter">Lectures</h1>
             <div className="flex gap-4 items-center justify-center">
               <div className="flex items-center justify-center">
                 <Button size="sm" onClick={navigateToQR}>

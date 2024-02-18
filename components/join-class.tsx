@@ -14,7 +14,7 @@ export const JoinClass = ({parsedEmail}) => {
 
   const createNewStudent = useMutation(api.students.createNewStudent);
   const addStudentToClass = useMutation(api.classes.addStudentToClass);
-  console.log(email)
+  console.log("EMAIL:", email)
 
   console.log(nameValue)
   console.log(phoneValue);

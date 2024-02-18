@@ -4,12 +4,17 @@
  * @see https://v0.dev/t/3nf3Hoi26BU
  */
 import { Button } from "@/components/ui/button";
+import { api } from "@/convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useQuery } from "convex/react";
 import { useRef, useState, useEffect } from "react"; // Import useRef hook
 import styled, { keyframes } from "styled-components";
+import { useRouter } from 'next/router';
 
-export default function ClassSearch() {
+export default function ClassSearch({ params }) {
   // Sample data for Sources
+
+
   const [sources, setSources] = useState([
     { name: "Lecture 1", id: 1 },
     { name: "Lecture 2", id: 2 },
@@ -29,7 +34,11 @@ export default function ClassSearch() {
   const [enterPressed, setEnterPressed] = useState(false);
   const [reSearch, setReSearch] = useState(false);
   const [titleText, setTitleText] = useState("Give me a short answer to this"); // Added state for dynamic title text
+  
 
+  
+  const classId = params.classId
+  console.log("Class Id: ", classId)
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const target = e.currentTarget;
     target.style.height = "auto";
@@ -64,7 +73,7 @@ export default function ClassSearch() {
         );
         const answerText = await generateAnswer(
           textareaRef.current.value,
-          user.email
+          classId
         );
         setRelated(
           newRelatedQuestions.map((query, index) => ({ query, id: index }))

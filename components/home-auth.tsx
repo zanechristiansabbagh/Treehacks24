@@ -8,6 +8,8 @@ import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Page from "../app/dashboard/page";
+import StudentTable from "@/app/studentList/page";
 
 export default function HomeAuth() {
   const { user } = useUser();
@@ -154,7 +156,17 @@ export default function HomeAuth() {
             </Card>
           ))}
         </div>
+
+        <div>
+          <Page/>
+        </div>
+        <div>
+          <StudentTable/>
+        </div>
       </main>
+
+
+
       <div className="fixed bottom-0 right-0 m-4">
         <Button
           size="sm"

@@ -1,7 +1,7 @@
 "use client"
 import { api } from '@/convex/_generated/api';
-import { useMutation } from 'convex/react';
-import React, { useState, useMemo } from 'react';
+import { useMutation, useQuery } from 'convex/react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 export const JoinClass = ({parsedEmail}) => {
   // Initialize the input state with useState hook
@@ -11,13 +11,16 @@ export const JoinClass = ({parsedEmail}) => {
   const pageURL = window.location.href
   const uncutEmail = pageURL.substring(pageURL.lastIndexOf('/') + 1);
   const email = uncutEmail.replace(/@URAD0G@/g, ".");
+  const getClassesByEmail = useQuery(api.classes.getClassesByEmail , {email: email});
 
   const createNewStudent = useMutation(api.students.createNewStudent);
   const addStudentToClass = useMutation(api.classes.addStudentToClass);
-  console.log(email)
-
-  console.log(nameValue)
-  console.log(phoneValue);
+  const createNewClassIfNotExists = useMutation(api.classes.createNewClassIfNotExists);
+  console.log(email === "christenxie@gmail.com")
+  console.log(getClassesByEmail, "classID")
+  useEffect(() => {
+    console.log("Email: ", email)
+  }, []);
   
   const handleNameChange = (e) => {
     setNameValue(e.target.value)
@@ -25,7 +28,7 @@ export const JoinClass = ({parsedEmail}) => {
 
   // Optimized phone number formatting function
   const handlePhoneChange = (e) => {
-    const formattedValue = e.target.value.replace(/[^\d]/g, '').replace(/(\d{1,3})(\d{0,3})(\d{0,4})/, (match, p1, p2, p3) => [p1, p2, p3].filter(Boolean).join('-'));
+    const formattedValue = e.target.value.replace(/[^\d]/g, '').replxace(/(\d{1,3})(\d{0,3})(\d{0,4})/, (match, p1, p2, p3) => [p1, p2, p3].filter(Boolean).join('-'));
     setPhoneValue(formattedValue);
   };
 
@@ -39,8 +42,17 @@ export const JoinClass = ({parsedEmail}) => {
     console.log("Final number:", cleanNumber); 
     console.log("Final Name:", nameValue); 
     console.log("Submission Status:", isSubmitted ? "Not Submitted" : "Submitted"); // Log the submission status, toggled from its previous state
-    const studentId = createNewStudent({studentName: nameValue, studentPhoneNumber: cleanNumber});
-    addStudentToClass({studentId: studentId, teacherEmail: email})
+
+    console.log(getClassesByEmail, "classID")
+    const studentId = createNewStudent({studentName: nameValue, studentPhoneNumber: cleanNumber, classId: getClassesByEmail});
+    console.log(studentId, "studentID")
+    createNewClassIfNotExists({teacherEmail: email})
+    console.log("teacherEmail: ", email)
+    console.log(studentId, "studentID")
+    if(studentId){
+      addStudentToClass({studentId: studentId, teacherEmail: email})
+    }
+
   };
 
   // Determine if the submit button should be enabled

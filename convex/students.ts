@@ -28,12 +28,13 @@ export const resetStudentTextsAndScore = mutation({
 })
 
 export const createNewStudent = mutation({
-    args: { studentName: v.string(), studentPhoneNumber: v.string() },
-    handler: async (ctx, { studentName, studentPhoneNumber }) => {
-        const doesStudentExist = await ctx.db.query("students").filter((q) => q.eq(q.field("phoneNumber"), studentPhoneNumber)).first();
+    args: { studentName: v.string(), studentPhoneNumber: v.string(), classId: v.string() }, 
+    handler: async (ctx, { studentName, studentPhoneNumber, classId }) => {
+        const classData = await ctx.db.query("classes").filter((q) => q.eq(q.field("_id"), classId)).first();
+        const studentData = await ctx.db.query("students").filter((q) => q.eq(q.field("phoneNumber"), studentPhoneNumber)).first();
+        const doesStudentExist = classData.students.includes(studentData._id)
         if(!doesStudentExist){
         return await ctx.db.insert("students", { name: studentName, phoneNumber: studentPhoneNumber, texts: 0, score: 0, indexesSeen: [] });
     }
-    },
-})
+}})
 

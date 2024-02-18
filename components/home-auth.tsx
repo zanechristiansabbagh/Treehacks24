@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
-import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
+import { UploadButton, UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -17,6 +17,7 @@ export default function HomeAuth() {
 
   const [uploadProgress, setUploadProgress] = useState(0); // State to track upload progress
   const [isUploading, setIsUploading] = useState(false); // State to track if upload is in progress
+  const [showOverlay, setShowOverlay] = useState(false); // State to control overlay visibility
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
@@ -31,6 +32,7 @@ export default function HomeAuth() {
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     setIsUploading(false);
     setUploadProgress(0);
+    setShowOverlay(false); // Hide overlay after upload
     for (const file of uploaded) {
       const response = file.response as any; // Assuming response has the structure we need
       await saveStorageId({
@@ -47,13 +49,16 @@ export default function HomeAuth() {
   };
 
   const navigateToStudentList = () => {
-    router.push("/studentList"); // Trigger click on file input when button is clicked
+    router.push("/studentList");
   };
   const navigateToBreakdown = () => {
-    router.push("/breakdown"); // Trigger click on file input when button is clicked
+    router.push("/breakdown");
+  };
+  const navigateToQR = () => {
+    router.push("/qr");
   };
   const logout = () => {
-    router.push("/api/auth/logout"); // Trigger click on file input when button is clicked
+    router.push("/api/auth/logout");
   };
 
   const formatDate = (date) => {
@@ -61,55 +66,46 @@ export default function HomeAuth() {
     return new Date(date).toLocaleDateString("en-US", options);
   };
 
+  const toggleOverlay = () => setShowOverlay(!showOverlay);
+
   return (
     <div className="w-full min-h-screen flex flex-col">
+      {showOverlay && (
+        <OverlayComponent
+          generateUploadUrl={generateUploadUrl}
+          onUploadBegin={onUploadBegin}
+          onUploadProgress={onUploadProgress}
+          saveAfterUpload={saveAfterUpload}
+        />
+      )}
       {isUploading && (
         <div className="w-full bg-gray-200">
-                    
           <div
             className="bg-green-500 text-xs leading-none py-1 text-center text-white"
             style={{ width: `${uploadProgress}%` }}
           >
-                        Uploading file...           
+            Uploading file...
           </div>
-                  
         </div>
       )}
-            
       <main className="flex-1">
-                
         <div className="container py-6 px-4 md:py-12 md:px-6">
-                    
           <div className="flex items-center gap-4 mb-4">
-                        
             <h1
               className="text-3xl font-bold tracking-tighter"
               style={{ marginLeft: "6%" }}
             >
               Lectures
             </h1>
-                        
-            <UploadButton
-              uploadUrl={generateUploadUrl}
-              fileTypes={[".pdf", "image/*"]}
-              onUploadComplete={saveAfterUpload}
-              onUploadBegin={onUploadBegin}
-              onUploadProgress={onUploadProgress}
-              onUploadError={(error: unknown) => {
-                // Do something with the error.
-                alert(`ERROR! ${error}`);
-              }}
-            />
-            {/* <Button size="sm" onClick={navigateToStudentList}>
-              Students
+            <div className="bg-gray-200 p-2 rounded">
+              <Button size="sm" onClick={toggleOverlay} className="text-black">
+                Add lecture
+              </Button>
+            </div>
+            <Button size="sm" onClick={navigateToQR}>
+              Display QR
             </Button>
-            <Button size="sm" onClick={logout}>
-              Logout
-            </Button>{" "} */}
-                        {/* Hidden file input */}
-                              
           </div>
-                    
           {classes?.map((classItem, index) => (
             <LectureCard
               key={index}
@@ -121,7 +117,6 @@ export default function HomeAuth() {
             />
           ))}
         </div>
-        
         <h1
           className="text-3xl font-bold tracking-tighter"
           style={{ marginLeft: "12%" }}
@@ -131,7 +126,6 @@ export default function HomeAuth() {
         <div>
           <StudentTable/>
         </div>
-
         <h1
           className="text-3xl font-bold tracking-tighter"
           style={{ marginLeft: "12%", marginBottom: "2%" }}
@@ -141,11 +135,7 @@ export default function HomeAuth() {
         <div>
           <Page/>
         </div>
-
       </main>
-
-
-
       <div className="fixed bottom-0 right-0 m-4">
         <Button
           size="sm"
@@ -158,6 +148,25 @@ export default function HomeAuth() {
         >
           Logout
         </Button>
+      </div>
+    </div>
+  );
+}
+
+function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, saveAfterUpload }) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+        <UploadDropzone
+          uploadUrl={generateUploadUrl}
+          fileTypes={[".pdf", "image/*"]}
+          onUploadComplete={saveAfterUpload}
+          onUploadBegin={onUploadBegin}
+          onUploadProgress={onUploadProgress}
+          onUploadError={(error: unknown) => {
+            alert(`ERROR! ${error}`);
+          }}
+        />
       </div>
     </div>
   );

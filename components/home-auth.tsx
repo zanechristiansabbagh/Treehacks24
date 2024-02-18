@@ -86,11 +86,13 @@ export default function HomeAuth() {
   };
 
   const toggleOverlay = () => setShowOverlay(!showOverlay);
+  console.log(showOverlay)
 
   return (
     <div className="w-full min-h-screen flex flex-col">
       {showOverlay && (
-        <div className="absolute inset-0 z-50">
+        <div className="relative inset-0 z-50">
+          <button onClick={toggleOverlay} className="absolute right-0 top-0 m-4 text-4xl text-white z-50">&times;</button>
           <OverlayComponent
             generateUploadUrl={generateUploadUrl}
             onUploadBegin={onUploadBegin}

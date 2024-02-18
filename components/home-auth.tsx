@@ -197,18 +197,19 @@ function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBrea
               Breakdown
             </Button>
 
-            <Button
-              size="sm"
-              className="bg-red-500 text-white"
+            <img
+              src="/trash.png"
+              alt="Delete"
+              className="cursor-pointer"
+              width="20"
+              height="20"
               onClick={async () =>
                 await deleteClass({
                   taskId: classItem._id,
                   storageId: classItem.lectureId,
                 })
               }
-            >
-              Delete
-            </Button>
+            />
           </div>
         </div>
       </CardContent>

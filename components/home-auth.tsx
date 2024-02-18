@@ -4,13 +4,17 @@ import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
-import { UploadButton, UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
+import {
+  UploadButton,
+  UploadDropzone,
+  UploadFileResponse,
+} from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Page from "../app/dashboard/page";
 import StudentTable from "@/app/studentList/page";
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function HomeAuth() {
   const { user } = useUser();
@@ -52,8 +56,8 @@ export default function HomeAuth() {
   const navigateToStudentList = () => {
     router.push("/studentList");
   };
-  const navigateToBreakdown = () => {
-    router.push("/breakdown");
+  const navigateToBreakdown = (lectureId: string) => {
+    router.push(`/breakdown/${lectureId}`);
   };
   const navigateToQR = () => {
     router.push("/qr");
@@ -125,7 +129,7 @@ export default function HomeAuth() {
           Students
         </h1>
         <div>
-          <StudentTable/>
+          <StudentTable />
         </div>
         <h1
           className="text-3xl font-bold tracking-tighter"
@@ -134,7 +138,7 @@ export default function HomeAuth() {
           Dashboard
         </h1>
         <div>
-          <Page/>
+          <Page />
         </div>
       </main>
       <div className="fixed bottom-0 right-0 m-4">
@@ -154,7 +158,12 @@ export default function HomeAuth() {
   );
 }
 
-function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, saveAfterUpload }) {
+function OverlayComponent({
+  generateUploadUrl,
+  onUploadBegin,
+  onUploadProgress,
+  saveAfterUpload,
+}) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
@@ -173,7 +182,13 @@ function OverlayComponent({ generateUploadUrl, onUploadBegin, onUploadProgress, 
   );
 }
 
-function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBreakdown }) {
+function LectureCard({
+  index,
+  classItem,
+  formatDate,
+  deleteClass,
+  navigateToBreakdown,
+}) {
   return (
     <Card className="w-4/5 bg-gray-700 mx-auto my-4">
       <CardContent className="p-4 md:p-6 flex flex-col md:flex-row items-start ">
@@ -194,7 +209,11 @@ function LectureCard({ index, classItem, formatDate, deleteClass, navigateToBrea
                 Slides
               </Button>
             </div>
-            <Button size="sm" className="bg-orange-500 text-white" onClick={navigateToBreakdown}>
+            <Button
+              size="sm"
+              className="bg-orange-500 text-white"
+              onClick={() => navigateToBreakdown(classItem.lectureId)}
+            >
               Breakdown
             </Button>
 
